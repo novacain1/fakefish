@@ -21,9 +21,9 @@ ISO_PATH='/'$(echo $ISO| cut -d '/' -f4-)
 curl -X POST -s -k -u ''"${BMC_USERNAME}"'':''"${BMC_PASSWORD}"'' https://${BMC_ENDPOINT}/redfish/v1/Managers/bmc/VirtualMedia/Slot_2/Actions/VirtualMedia.EjectMedia -d ""
 
 # Mount the image
-sleep 3
-echo
-curl -X POST -s -k -u ''"${BMC_USERNAME}"'':''"${BMC_PASSWORD}"'' https://${BMC_ENDPOINT}/redfish/v1/Managers/bmc/VirtualMedia/Slot_2/Actions/VirtualMedia.InsertMedia -d "" -H "Content-Type: application/json"
+IMAGE_JSON="{\"Image\": \"${ISO}\"}"
+curl -X POST -s -k -u ''"${BMC_USERNAME}"'':''"${BMC_PASSWORD}"'' https://${BMC_ENDPOINT}/redfish/v1/Managers/bmc/VirtualMedia/Slot_2/Actions/VirtualMedia.InsertMedia -d "${IMAGE_JSON}" -H "Content-Type: application/json"
+
 if [ $? -eq 0 ]; then
   # Check if the image is mounted
   IMAGE=$(curl -s -k -u ''"${BMC_USERNAME}"'':''"${BMC_PASSWORD}"'' https://${BMC_ENDPOINT}/redfish/v1/Managers/bmc/VirtualMedia/Slot_2)
