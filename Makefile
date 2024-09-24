@@ -2,7 +2,7 @@ IMAGE_NAME ?= fakefish
 ORG        ?= fakefish
 REGISTRY   ?= quay.io
 IMAGE_URL  ?= $(REGISTRY)/$(ORG)/$(IMAGE_NAME)
-AUTHOR     ?= Mario Vazquez <mavazque@redhat.com>
+AUTHOR     ?= Dave Cain <dcain@redhat.com>
 TAG        ?= latest
 
 .PHONY: build-dell build-kubevirt build-supermicro build-hpe-gen9 build-custom pre-reqs
