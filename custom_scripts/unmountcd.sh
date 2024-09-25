@@ -10,11 +10,8 @@
 
 # Disconnect image
 curl -X POST -s -k -u ''"${BMC_USERNAME}"'':''"${BMC_PASSWORD}"'' https://${BMC_ENDPOINT}/redfish/v1/Managers/bmc/VirtualMedia/Slot_2/Actions/VirtualMedia.EjectMedia -d "" -H "Content-type: application/json"
-sleep 2
 
-# Check it has unmounted
-IMAGE=$(curl -s -k -u ''"${BMC_USERNAME}"'':''"${BMC_PASSWORD}"'' https://${BMC_ENDPOINT}/redfish/v1/Managers/bmc/VirtualMedia/Slot_2)
-if [$IMAGE = ""]; then
+if [ $? -eq 0 ]; then
   exit 0
 else
   exit 1

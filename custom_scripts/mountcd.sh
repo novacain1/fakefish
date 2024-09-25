@@ -10,8 +10,6 @@
 #### BMC_PASSWORD - Has the password configured in the BMH/InstallConfig and that is used to access BMC_ENDPOINT
 
 ISO=${1}
-ISO_URL=$(echo $ISO| cut -d '/' -f-3)
-ISO_PATH='/'$(echo $ISO| cut -d '/' -f4-)
 
 # Configure remote media, in case it is not already enabled
 #echo
@@ -25,15 +23,7 @@ IMAGE_JSON="{\"Image\": \"${ISO}\"}"
 curl -X POST -s -k -u ''"${BMC_USERNAME}"'':''"${BMC_PASSWORD}"'' https://${BMC_ENDPOINT}/redfish/v1/Managers/bmc/VirtualMedia/Slot_2/Actions/VirtualMedia.InsertMedia -d "${IMAGE_JSON}" -H "Content-Type: application/json"
 
 if [ $? -eq 0 ]; then
-  # Check if the image is mounted
-  IMAGE=$(curl -s -k -u ''"${BMC_USERNAME}"'':''"${BMC_PASSWORD}"'' https://${BMC_ENDPOINT}/redfish/v1/Managers/bmc/VirtualMedia/Slot_2)
-  echo
-  echo $IMAGE
-  if `echo $IMAGE | egrep -q ${ISO_PATH}`; then
-    exit 0
-  else
-    exit 1
-  fi
+  exit 0
 else
   exit 1
 fi
